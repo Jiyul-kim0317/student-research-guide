@@ -139,3 +139,78 @@ for category, sites in categories.items():
             st.write(info["desc"])
             st.markdown(f"[사이트 바로가기]({info['link']})")
     st.markdown("---")
+
+# -----------------------
+# 2️⃣ 탐구 주제 기록
+# -----------------------
+st.header("📝 탐구 주제 기록")
+with st.form("research_form"):
+    title = st.text_input("탐구 주제 제목")
+    purpose = st.text_area("탐구 목적")
+    process = st.text_area("탐구 과정")
+    result = st.text_area("탐구 결과")
+    reflection = st.text_area("느낀 점")
+    submitted = st.form_submit_button("기록 저장")
+    
+    if submitted:
+        df_new = pd.DataFrame([{
+            "날짜": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "제목": title,
+            "목적": purpose,
+            "과정": process,
+            "결과": result,
+            "느낀점": reflection
+        }])
+        try:
+            df = pd.read_csv("research_records.csv")
+            df = pd.concat([df, df_new], ignore_index=True)
+        except FileNotFoundError:
+            df = df_new
+        df.to_csv("research_records.csv", index=False)
+        st.success("탐구 기록이 저장되었습니다!")
+
+# 기존 기록 표시
+try:
+    st.subheader("기존 탐구 기록")
+    df = pd.read_csv("research_records.csv")
+    st.dataframe(df)
+except FileNotFoundError:
+    st.info("아직 기록된 탐구 주제가 없습니다.")
+
+st.markdown("---")
+
+# -----------------------
+# 3️⃣ 생기부 활동 기록
+# -----------------------
+st.header("📋 생기부 활동 기록")
+with st.form("activities_form"):
+    subject = st.text_input("과목/활동 이름")
+    detail = st.text_area("활동 내용")
+    date = st.date_input("활동 날짜")
+    submitted2 = st.form_submit_button("활동 저장")
+    
+    if submitted2:
+        df_act_new = pd.DataFrame([{
+            "날짜": date,
+            "과목/활동": subject,
+            "내용": detail
+        }])
+        try:
+            df_act = pd.read_csv("activity_records.csv")
+            df_act = pd.concat([df_act, df_act_new], ignore_index=True)
+        except FileNotFoundError:
+            df_act = df_act_new
+        df_act.to_csv("activity_records.csv", index=False)
+        st.success("활동 기록이 저장되었습니다!")
+
+# 기존 기록 표시 및 과목별 시각화
+try:
+    st.subheader("기존 활동 기록")
+    df_act = pd.read_csv("activity_records.csv")
+    st.dataframe(df_act)
+    
+    st.subheader("📊 과목별 활동 비중")
+    fig = px.pie(df_act, names="과목/활동", title="활동 비중")
+    st.plotly_chart(fig)
+except FileNotFoundError:
+    st.info("아직 활동 기록이 없습니다.")
