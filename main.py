@@ -1,10 +1,11 @@
+# main.py
 import streamlit as st
 
 st.set_page_config(page_title="학생 탐구·생기부 가이드", layout="wide")
 st.title("📚 학생 탐구·생기부 가이드")
 st.markdown("학생들의 주제탐구와 생기부 관리를 돕는 사이트와 활용 팁 모음입니다.")
 
-# 사이트 정보 (설명과 링크)
+# 사이트 정보 (설명과 활용 팁 포함)
 categories = {
     "대학 홈페이지": {
         "서울대학교": {
@@ -135,10 +136,6 @@ for category, sites in categories.items():
     st.header(f"📂 {category}")
     for name, info in sites.items():
         with st.expander(name):
-            st.write(info["desc"])
-            st.markdown(f"[사이트 바로가기]({info['link']})")
-    st.markdown("---")
-
             st.write(info["desc"])
             st.markdown(f"[사이트 바로가기]({info['link']})")
     st.markdown("---")
