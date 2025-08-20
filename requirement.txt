@@ -1,1 +1,6 @@
 streamlit==1.30.0
+pandas
+plotly
+gspread
+google-auth
+openai
