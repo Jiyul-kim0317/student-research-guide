@@ -1,10 +1,19 @@
 # main.py
 import streamlit as st
+import pandas as pd
+from datetime import datetime
+import plotly.express as px
 
 st.set_page_config(page_title="학생 탐구·생기부 가이드", layout="wide")
 st.title("📚 학생 탐구·생기부 가이드")
 st.markdown("학생들의 주제탐구와 생기부 관리를 돕는 사이트와 활용 팁 모음입니다.")
 
+# -----------------------
+# 1️⃣ 사이트 정보
+# -----------------------
+categories = {
+    # (기존 categories 내용 그대로 넣기)
+    # 대학 홈페이지, 논문 사이트, 학술 검색, 강의 사이트, AI 도구, 발표자료, 교과서
 # 사이트 정보 (설명과 활용 팁 포함)
 categories = {
     "대학 홈페이지": {
@@ -131,7 +140,6 @@ categories = {
     }
 }
 
-# 사이트 표시
 for category, sites in categories.items():
     st.header(f"📂 {category}")
     for name, info in sites.items():
@@ -169,7 +177,6 @@ with st.form("research_form"):
         df.to_csv("research_records.csv", index=False)
         st.success("탐구 기록이 저장되었습니다!")
 
-# 기존 기록 표시
 try:
     st.subheader("기존 탐구 기록")
     df = pd.read_csv("research_records.csv")
@@ -203,14 +210,16 @@ with st.form("activities_form"):
         df_act.to_csv("activity_records.csv", index=False)
         st.success("활동 기록이 저장되었습니다!")
 
-# 기존 기록 표시 및 과목별 시각화
 try:
     st.subheader("기존 활동 기록")
     df_act = pd.read_csv("activity_records.csv")
     st.dataframe(df_act)
     
     st.subheader("📊 과목별 활동 비중")
-    fig = px.pie(df_act, names="과목/활동", title="활동 비중")
-    st.plotly_chart(fig)
+    if not df_act.empty:
+        fig = px.pie(df_act, names="과목/활동", title="활동 비중")
+        st.plotly_chart(fig)
 except FileNotFoundError:
     st.info("아직 활동 기록이 없습니다.")
+
+
