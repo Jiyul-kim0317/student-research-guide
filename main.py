@@ -4,9 +4,9 @@ import pandas as pd
 from datetime import datetime
 import plotly.express as px
 
-st.set_page_config(page_title="학생 탐구·생기부 가이드", layout="wide")
-st.title("📚 학생 탐구·생기부 가이드")
-st.markdown("학생들의 주제탐구와 생기부 관리를 돕는 사이트와 활용 팁 모음입니다.")
+st.set_page_config(page_title="학생 주제탐구 가이드", layout="wide")
+st.title("📚 학생 주제탐구 가이드")
+st.markdown("학생들의 주제탐구 활동 관리를 돕는 사이트입니다.")
 
 # -----------------------
 # 1️⃣ 사이트 정보
